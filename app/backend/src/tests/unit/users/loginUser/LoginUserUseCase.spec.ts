@@ -22,7 +22,7 @@ const loginUserUseCase = new LoginUserUseCase(
 
 const [admin, user] = users;
 
-describe('Test LoginUserUseCase', () => {
+describe.only('Test LoginUserUseCase', () => {
   let findByEmailStub: sinon.SinonStub;
   let encryptServiceStub: sinon.SinonStub;
 
@@ -31,23 +31,18 @@ describe('Test LoginUserUseCase', () => {
       findByEmailStub = sinon
         .stub(usersRepository, 'findByEmail')
         .resolves(user);
-
-      encryptServiceStub = sinon
-        .stub(EncryptService, 'verify')
-        .resolves(true);
     });
 
     after(() => {
       findByEmailStub.restore();
-      encryptServiceStub.restore();
     });
 
     it('should return an object with the user data, authorization token and status code', async () => {
-      const { email, password } = user;
+      const { email } = user;
 
       const result = await loginUserUseCase.execute({
         email,
-        password,
+        password: 'secret_user',
       });
 
       expect(result).to.be.an('object');
