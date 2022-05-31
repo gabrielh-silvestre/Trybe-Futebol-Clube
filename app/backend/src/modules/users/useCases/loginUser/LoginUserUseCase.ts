@@ -5,7 +5,7 @@ import type {
   User,
   UserLoginReturn,
   SuccessReturn,
-  UserToken,
+  UserTokenData,
 } from '../../../../@types/types';
 import type { IUsersRepository } from '../../../../@types/interfaces';
 import type { IAuthService } from '../../../../services/Auth';
@@ -49,7 +49,7 @@ class LoginUserUseCase {
     return true;
   }
 
-  private generateToken({ id, username, role }: UserToken): string {
+  private generateToken({ id, username, role }: UserTokenData): string {
     return this.authService.generate({ id, username, role });
   }
 

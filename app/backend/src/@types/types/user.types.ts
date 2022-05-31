@@ -13,9 +13,14 @@ type LoginReturn = {
   token: string;
 };
 
-type Token = Pick<Attributes, 'id' | 'username' | 'role'>;
+type TokenData = Pick<Attributes, 'id' | 'username' | 'role'>;
+
+type Token = {
+  data: TokenData;
+};
 
 export type User = Attributes;
 export type UserCreation = CreationAttributes;
 export type UserLoginReturn = LoginReturn;
+export type UserTokenData = TokenData;
 export type UserToken = Token;

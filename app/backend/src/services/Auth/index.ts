@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 
-import { UserToken } from '../../@types/types';
+import { UserToken, UserTokenData } from '../../@types/types';
 import jwtConfig from '../../config/jwtConfig';
 
 class AuthService {
@@ -14,7 +14,7 @@ class AuthService {
     }
   }
 
-  public static generate(user: UserToken): string {
+  public static generate(user: UserTokenData): string {
     const { secret, expiresIn, algorithm } = jwtConfig;
 
     return jwt.sign({ data: user }, secret, { expiresIn, algorithm });
