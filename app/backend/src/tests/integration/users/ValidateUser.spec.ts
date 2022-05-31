@@ -43,7 +43,7 @@ describe('Test endpoint GET /login/validate', () => {
     before(() => {
       authServiceStub = sinon
         .stub(AuthService, 'validate')
-        .onCall(1)
+        .onCall(2)
         .throws(new Error('Test error'));
     });
 
