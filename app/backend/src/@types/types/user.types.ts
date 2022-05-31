@@ -1,4 +1,4 @@
-type UserAttributes = {
+type Attributes = {
   id: number;
   username: string;
   role: 'admin' | 'user';
@@ -6,7 +6,13 @@ type UserAttributes = {
   password: string;
 };
 
-type UserCreationAttributes = Omit<UserAttributes, 'id'>;
+type CreationAttributes = Omit<Attributes, 'id'>;
 
-export type User = UserAttributes;
-export type UserCreation = UserCreationAttributes;
+type LoginReturn = {
+  user: Omit<Attributes, 'password'>;
+  token: string;
+};
+
+export type User = Attributes;
+export type UserCreation = CreationAttributes;
+export type UserLoginReturn = LoginReturn;
