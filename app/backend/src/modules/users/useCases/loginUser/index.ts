@@ -1,6 +1,7 @@
 import UsersRepository from '../../repository';
 import LoginUserUseCase from './LoginUserUseCase';
 import LoginUserController from './LoginUserController';
+
 import AuthService from '../../../../services/Auth';
 import EncryptService from '../../../../services/Encrypt';
 
