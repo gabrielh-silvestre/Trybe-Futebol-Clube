@@ -2,3 +2,4 @@
 @types/restify-errors
 http-status-codes
 restify-errors
+joi
