@@ -4,16 +4,25 @@ import { NextFunction, request, response } from 'express';
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 
+import { SuccessReturn, UserLoginReturn } from '../../../../@types/types';
+
 import UsersRepository from '../../../../modules/users/repository';
 import LoginUserUseCase from '../../../../modules/users/useCases/loginUser/LoginUserUseCase';
 import LoginUserController from '../../../../modules/users/useCases/loginUser/LoginUserController';
+
+import AuthService from '../../../../services/Auth';
+import EncryptService from '../../../../services/Encrypt';
+
 import { users } from '../../../mock/users';
-import { SuccessReturn, UserLoginReturn } from '../../../../@types/types';
 
 const { expect } = chai;
 
 const usersRepository = new UsersRepository();
-const loginUserUseCase = new LoginUserUseCase(usersRepository);
+const loginUserUseCase = new LoginUserUseCase(
+  usersRepository,
+  AuthService,
+  EncryptService
+);
 const loginUserController = new LoginUserController(loginUserUseCase);
 
 const [admin, user] = users;

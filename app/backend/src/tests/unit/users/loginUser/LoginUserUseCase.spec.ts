@@ -1,31 +1,45 @@
+import { DefinedHttpError } from 'restify-errors';
+
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 
 import UsersRepository from '../../../../modules/users/repository';
 import LoginUserUseCase from '../../../../modules/users/useCases/loginUser/LoginUserUseCase';
+
+import AuthService from '../../../../services/Auth';
+import EncryptService from '../../../../services/Encrypt';
+
 import { users } from '../../../mock/users';
-import { DefinedHttpError } from 'restify-errors';
 
 const { expect } = chai;
 
 const usersRepository = new UsersRepository();
-const loginUserUseCase = new LoginUserUseCase(usersRepository);
+const loginUserUseCase = new LoginUserUseCase(
+  usersRepository,
+  AuthService,
+  EncryptService
+);
 
 const [admin, user] = users;
 
 describe('Test LoginUserUseCase', () => {
-
   let findByEmailStub: sinon.SinonStub;
+  let encryptServiceStub: sinon.SinonStub;
 
   describe('1. Success case', () => {
     before(() => {
       findByEmailStub = sinon
         .stub(usersRepository, 'findByEmail')
         .resolves(user);
+
+      encryptServiceStub = sinon
+        .stub(EncryptService, 'verify')
+        .resolves(true);
     });
 
     after(() => {
       findByEmailStub.restore();
+      encryptServiceStub.restore();
     });
 
     it('should return an object with the user data, authorization token and status code', async () => {
