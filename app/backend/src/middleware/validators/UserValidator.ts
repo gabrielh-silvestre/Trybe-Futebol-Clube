@@ -4,7 +4,7 @@ import * as joi from 'joi';
 
 class UserValidator {
   private static loginValidationSchema = joi.object({
-    email: joi.string().email().required(),
+    email: joi.string().required(),
     password: joi.string().required(),
   });
 
