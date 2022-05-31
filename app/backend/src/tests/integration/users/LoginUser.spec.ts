@@ -60,6 +60,7 @@ describe('Test endpoint POST /login', () => {
 
       repositoryStub.onCall(0).resolves(null);
       repositoryStub.onCall(1).resolves(user);
+      repositoryStub.onCall(2).rejects(new Error('Test error'));
 
       encryptServiceStub = sinon.stub(EncryptService, 'verify').resolves(false);
     });
@@ -112,6 +113,18 @@ describe('Test endpoint POST /login', () => {
       expect(response.status).to.equal(401);
       expect(response.body).to.deep.equal({
         message: 'Incorrect email or password',
+      });
+    });
+
+    it('when a unexpected error occurs', async () => {
+      const response = await chai.request(app).post('/login').send({
+        email: user.email,
+        password: user.password,
+      });
+
+      expect(response.status).to.equal(500);
+      expect(response.body).to.deep.equal({
+        message: 'Internal server error',
       });
     });
   });
