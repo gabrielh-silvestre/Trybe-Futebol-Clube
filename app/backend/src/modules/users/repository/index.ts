@@ -10,14 +10,6 @@ class UsersRepository implements IUsersRepository {
     this.model = UserModel;
   }
 
-  async findAll(): Promise<User[]> {
-    const result = await this.model.findAll({
-      attributes: ['id', 'name', 'email'],
-    });
-
-    return result;
-  }
-
   async findByEmail(email: string): Promise<User | null> {
     const result = this.model.findOne({
       where: {
