@@ -22,9 +22,8 @@ const loginUserUseCase = new LoginUserUseCase(
 
 const [admin, user] = users;
 
-describe.only('Test LoginUserUseCase', () => {
+describe('Test LoginUserUseCase', () => {
   let findByEmailStub: sinon.SinonStub;
-  let encryptServiceStub: sinon.SinonStub;
 
   describe('1. Success case', () => {
     before(() => {
