@@ -1,5 +1,9 @@
 import * as express from 'express';
 
+import loginRouter from './routes/userRouter';
+
+import errorHandler from './middleware/error/handler';
+
 class App {
   public app: express.Express;
   // ...
@@ -32,7 +36,12 @@ class App {
   }
 
   private routes(): void {
+    this.app.use(express.json());
+
     this.app.get('/', (_req, res) => res.json({ message: 'Hello World!' }));
+    this.app.use('/login', loginRouter);
+
+    this.app.use(errorHandler);
   }
 }
 
