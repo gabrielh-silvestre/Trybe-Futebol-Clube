@@ -22,7 +22,7 @@ const MOCK_TOKEN: UserToken = {
   },
 };
 
-describe.only('Test endpoint GET /login/validate', () => {
+describe('Test endpoint GET /login/validate', () => {
   let authServiceStub: sinon.SinonStub;
 
   describe('1. Success case', () => {
@@ -40,6 +40,17 @@ describe.only('Test endpoint GET /login/validate', () => {
   });
 
   describe('2. Fail case', () => {
+    before(() => {
+      authServiceStub = sinon
+        .stub(AuthService, 'validate')
+        .onCall(1)
+        .throws(new Error('Test error'));
+    });
+
+    after(() => {
+      authServiceStub.restore();
+    });
+
     it('when token is invalid', async () => {
       const response = await chai
         .request(app)
@@ -51,6 +62,28 @@ describe.only('Test endpoint GET /login/validate', () => {
       expect(response.body).to.be.an('object');
       expect(response.body).to.have.property('message');
       expect(response.body.message).to.equal('Invalid token');
+    });
+
+    it('when token is not provided', async () => {
+      const response = await chai.request(app).get('/login/validate');
+
+      expect(response.status).to.equal(401);
+
+      expect(response.body).to.be.an('object');
+      expect(response.body).to.have.property('message');
+      expect(response.body.message).to.equal('Invalid token');
+    });
+
+    it('when a unexpected error occurs', async () => {
+      const response = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', 'valid_token');
+
+      expect(response.status).to.equal(500);
+      expect(response.body).to.deep.equal({
+        message: 'Internal server error',
+      });
     });
   });
 });
