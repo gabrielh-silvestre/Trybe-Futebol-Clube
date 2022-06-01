@@ -48,14 +48,43 @@ describe('Test GetAllMatchesController', () => {
   describe('1. Success case', () => {
     before(() => {
       useCaseStub = sinon.stub(getAllMatchesUseCase, 'execute');
-      useCaseStub.resolves(SUCCESS_USE_CASE);
+
+      useCaseStub.onCall(0).resolves(SUCCESS_USE_CASE);
+      useCaseStub.onCall(1).resolves(SUCCESS_USE_CASE);
+      useCaseStub.onCall(2).resolves((SUCCESS_USE_CASE.data = []));
     });
 
     after(() => {
       useCaseStub.restore();
     });
 
-    it('should return an response with the matches data and status code 200', async () => {
+    it('when does not have a query, should return an response with the matches data and status code 200', async () => {
+      request.query = {
+        inProgress: undefined,
+      };
+
+      await getAllMatchesController.handle(request, response, next.next);
+
+      expect(spiedStatus.calledWith(200)).to.be.true;
+      expect(spiedJson.calledWith(SUCCESS_USE_CASE.data)).to.be.true;
+    });
+
+    it('when query by finished matches, should return an response with the finished matches data and status code 200', async () => {
+      request.query = {
+        inProgress: 'false',
+      };
+
+      await getAllMatchesController.handle(request, response, next.next);
+
+      expect(spiedStatus.calledWith(200)).to.be.true;
+      expect(spiedJson.calledWith(SUCCESS_USE_CASE.data)).to.be.true;
+    });
+
+    it('when query by in progress matches, should return an response with the in progress matches data and status code 200', async () => {
+      request.query = {
+        inProgress: 'true',
+      };
+
       await getAllMatchesController.handle(request, response, next.next);
 
       expect(spiedStatus.calledWith(200)).to.be.true;
