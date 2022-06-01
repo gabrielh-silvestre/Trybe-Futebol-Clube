@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import loginRouter from './routes/userRouter';
 import teamsRouter from './routes/teamRouter';
+import matchesRouter from './routes/matchRouter';
 
 import errorHandler from './middleware/error/handler';
 
@@ -40,8 +41,10 @@ class App {
     this.app.use(express.json());
 
     this.app.get('/', (_req, res) => res.json({ message: 'Hello World!' }));
+
     this.app.use('/login', loginRouter);
     this.app.use('/teams', teamsRouter);
+    this.app.use('/matches', matchesRouter);
 
     this.app.use(errorHandler);
   }
