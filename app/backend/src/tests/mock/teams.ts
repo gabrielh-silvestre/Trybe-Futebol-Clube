@@ -1,6 +1,6 @@
-import type { Team } from '../../@types/types';
+import type { TeamAttributes } from '../../@types/types';
 
-const teams: Team[] = [
+const teams: TeamAttributes[] = [
   { id: 1, teamName: 'Avaí/Kindermann' },
   { id: 2, teamName: 'Bahia' },
   { id: 3, teamName: 'Botafogo' },
