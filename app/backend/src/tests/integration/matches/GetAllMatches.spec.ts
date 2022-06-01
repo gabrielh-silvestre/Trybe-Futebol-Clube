@@ -57,7 +57,7 @@ describe('Test endpoint GET /matches', () => {
     });
 
     it('when a unexpected error occurs', async () => {
-      const response = await chai.request(app).get('/teams');
+      const response = await chai.request(app).get('/matches');
 
       expect(response.status).to.equal(500);
       expect(response.body).to.deep.equal({
