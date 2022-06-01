@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import type { IMatchesRepository } from '../../../@types/interfaces/match.interfaces';
 import type {
   MatchAttributes,
@@ -15,14 +16,16 @@ class MatchesRepository implements IMatchesRepository {
     this.model = MatchModel;
   }
 
-  async findAll(): Promise<MatchReturn[]> {
+  async findAll(query: boolean | null = null): Promise<MatchReturn[]> {
     const result = await this.model.findAll({
       include: [
         { model: TeamModel, as: 'teamHome', attributes: ['teamName'] },
         { model: TeamModel, as: 'teamAway', attributes: ['teamName'] },
       ],
+      where: {
+        inProgress: query === null ? { [Op.or]: [true, false] } : query,
+      },
     });
-
     return result as unknown as MatchReturn[];
   }
 

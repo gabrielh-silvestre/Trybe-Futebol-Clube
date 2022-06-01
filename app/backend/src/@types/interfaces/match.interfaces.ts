@@ -1,7 +1,7 @@
 import type { MatchAttributes, MatchCreation, MatchReturn } from '../types';
 
 interface MatchesRepository {
-  findAll(): Promise<MatchReturn[]>;
+  findAll(query?: boolean | null): Promise<MatchReturn[]>;
   create(match: MatchCreation): Promise<MatchAttributes>;
 }
 
