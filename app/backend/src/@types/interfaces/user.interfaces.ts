@@ -1,7 +1,7 @@
-import { User } from '../types';
+import type { UserAttributes } from '../types';
 
 interface UsersRepository {
-  findByEmail(email: string): Promise<User | null>;
+  findByEmail(email: string): Promise<UserAttributes | null>;
 }
 
 export type IUsersRepository = UsersRepository;

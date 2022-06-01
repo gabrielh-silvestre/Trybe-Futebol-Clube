@@ -1,5 +1,5 @@
-import { IUsersRepository } from '../../../@types/interfaces';
-import { User } from '../../../@types/types';
+import type { IUsersRepository } from '../../../@types/interfaces';
+import type { UserAttributes } from '../../../@types/types';
 
 import UserModel from '../../../database/models/UserMode';
 
@@ -10,7 +10,7 @@ class UsersRepository implements IUsersRepository {
     this.model = UserModel;
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserAttributes | null> {
     const result = this.model.findOne({
       where: {
         email,

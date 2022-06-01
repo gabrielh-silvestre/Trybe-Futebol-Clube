@@ -2,12 +2,12 @@ import { StatusCodes } from 'http-status-codes';
 import { NotFoundError } from 'restify-errors';
 
 import type { ITeamsRepository } from '../../../../@types/interfaces';
-import type { Team, SuccessReturn } from '../../../../@types/types';
+import type { TeamAttributes, SuccessReturn } from '../../../../@types/types';
 
 class GetTeamByIdUseCase {
   constructor(private readonly teamsRepository: ITeamsRepository) {}
 
-  async execute(id: number): Promise<SuccessReturn<Team> | never> {
+  async execute(id: number): Promise<SuccessReturn<TeamAttributes> | never> {
     const foundTeam = await this.teamsRepository.findById(id);
 
     if (!foundTeam) {

@@ -1,8 +1,8 @@
-import { Team } from '../types';
+import type { TeamAttributes } from '../types';
 
 interface TeamsRepository {
-  findAll(): Promise<Team[]>;
-  findById(id: number): Promise<Team | null>;
+  findAll(): Promise<TeamAttributes[]>;
+  findById(id: number): Promise<TeamAttributes | null>;
 }
 
 export type ITeamsRepository = TeamsRepository;

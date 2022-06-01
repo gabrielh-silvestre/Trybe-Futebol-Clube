@@ -1,4 +1,6 @@
-type MatchAttributes = {
+import type { TeamAttributes } from './team.types';
+
+type Attributes = {
   id: number;
   homeTeam: number;
   homeTeamGoals: number;
@@ -7,7 +9,13 @@ type MatchAttributes = {
   inProgress: boolean;
 };
 
-type MatchCreationAttributes = Omit<MatchAttributes, 'id'>;
+type CreationAttributes = Omit<Attributes, 'id'>;
 
-export type Match = MatchAttributes;
-export type MatchCreation = MatchCreationAttributes;
+type Return = Attributes & {
+  teamHome: Pick<TeamAttributes, 'teamName'>;
+  teamAway: Pick<TeamAttributes, 'teamName'>;
+};
+
+export type MatchAttributes = Attributes;
+export type MatchCreation = CreationAttributes;
+export type MatchReturn = Return;

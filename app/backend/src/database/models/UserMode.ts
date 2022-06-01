@@ -1,6 +1,6 @@
 import { INTEGER, Model, STRING } from 'sequelize';
 
-import { User as UserAttributes, UserCreation } from '../../@types/types';
+import type { UserAttributes, UserCreation } from '../../@types/types';
 
 import sequelize from '.';
 

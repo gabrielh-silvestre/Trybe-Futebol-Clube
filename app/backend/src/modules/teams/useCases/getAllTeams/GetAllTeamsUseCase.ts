@@ -1,12 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 
 import type { ITeamsRepository } from '../../../../@types/interfaces';
-import type { SuccessReturn, Team } from '../../../../@types/types';
+import type { SuccessReturn, TeamAttributes } from '../../../../@types/types';
 
 class GetAllTeamsUseCase {
   constructor(private readonly teamsRepository: ITeamsRepository) {}
 
-  async execute(): Promise<SuccessReturn<Team[]>> {
+  async execute(): Promise<SuccessReturn<TeamAttributes[]>> {
     const teams = await this.teamsRepository.findAll();
 
     return {

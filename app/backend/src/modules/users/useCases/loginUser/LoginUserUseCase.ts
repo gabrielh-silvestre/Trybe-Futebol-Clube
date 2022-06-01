@@ -2,7 +2,7 @@ import { UnauthorizedError } from 'restify-errors';
 import { StatusCodes } from 'http-status-codes';
 
 import type {
-  User,
+  UserAttributes,
   UserLoginReturn,
   SuccessReturn,
   UserTokenData,
@@ -23,7 +23,7 @@ class LoginUserUseCase {
     private readonly encryptService: IEncryptService,
   ) {}
 
-  private async userExists(email: string): Promise<User | never> {
+  private async userExists(email: string): Promise<UserAttributes | never> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
@@ -54,7 +54,7 @@ class LoginUserUseCase {
   }
 
   private static returnConstructor(
-    foundUser: User,
+    foundUser: UserAttributes,
     token: string,
   ): UserLoginReturn {
     return {

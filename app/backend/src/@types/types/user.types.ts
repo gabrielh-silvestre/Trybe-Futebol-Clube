@@ -19,7 +19,7 @@ type Token = {
   data: TokenData;
 };
 
-export type User = Attributes;
+export type UserAttributes = Attributes;
 export type UserCreation = CreationAttributes;
 export type UserLoginReturn = LoginReturn;
 export type UserTokenData = TokenData;

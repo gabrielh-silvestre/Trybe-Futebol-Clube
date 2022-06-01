@@ -1,6 +1,6 @@
 import { Model, INTEGER, STRING } from 'sequelize';
 
-import type { Team as TeamAttributes, TeamCreation } from '../../@types/types';
+import type { TeamAttributes, TeamCreation } from '../../@types/types';
 
 import sequelize from '.';
 import Match from './MatchModel';

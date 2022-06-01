@@ -1,5 +1,5 @@
 import type { ITeamsRepository } from '../../../@types/interfaces';
-import type { Team } from '../../../@types/types';
+import type { TeamAttributes } from '../../../@types/types';
 
 import TeamModel from '../../../database/models/TeamModel';
 
@@ -10,13 +10,13 @@ class TeamsRepository implements ITeamsRepository {
     this.model = TeamModel;
   }
 
-  async findAll(): Promise<Team[]> {
+  async findAll(): Promise<TeamAttributes[]> {
     const result = this.model.findAll();
 
     return result;
   }
 
-  async findById(id: number): Promise<Team | null> {
+  async findById(id: number): Promise<TeamAttributes | null> {
     const result = this.model.findOne({
       where: {
         id,

@@ -1,9 +1,9 @@
-type TeamAttributes = {
+type Attributes = {
   id: number;
   teamName: string;
 };
 
-type TeamCreationAttributes = Omit<TeamAttributes, 'id'>;
+type TeamCreationAttributes = Omit<Attributes, 'id'>;
 
-export type Team = TeamAttributes;
+export type TeamAttributes = Attributes;
 export type TeamCreation = TeamCreationAttributes;
