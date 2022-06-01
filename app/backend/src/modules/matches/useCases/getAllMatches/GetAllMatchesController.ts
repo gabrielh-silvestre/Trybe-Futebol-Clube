@@ -5,13 +5,16 @@ import GetAllMatchesUseCase from './GetAllMatchesUseCase';
 class GetAllMatchesController {
   constructor(private readonly getAllMatchesUseCase: GetAllMatchesUseCase) {}
 
-  async handle(
-    _req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { statusCode, data } = await this.getAllMatchesUseCase.execute();
+      let q: boolean | null = null;
+      const { inProgress } = req.query;
+
+      if (typeof inProgress === 'string') {
+        q = inProgress === 'true';
+      }
+
+      const { statusCode, data } = await this.getAllMatchesUseCase.execute(q);
 
       res.status(statusCode).json(data);
     } catch (error) {
