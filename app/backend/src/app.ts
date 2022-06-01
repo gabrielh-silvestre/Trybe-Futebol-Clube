@@ -1,6 +1,7 @@
 import * as express from 'express';
 
 import loginRouter from './routes/userRouter';
+import teamsRouter from './routes/teamRouter';
 
 import errorHandler from './middleware/error/handler';
 
@@ -40,6 +41,7 @@ class App {
 
     this.app.get('/', (_req, res) => res.json({ message: 'Hello World!' }));
     this.app.use('/login', loginRouter);
+    this.app.use('/teams', teamsRouter);
 
     this.app.use(errorHandler);
   }
