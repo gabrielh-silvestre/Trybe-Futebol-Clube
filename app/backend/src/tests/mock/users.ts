@@ -1,6 +1,6 @@
-import { User } from '../../@types/types';
+import { UserAttributes } from '../../@types/types';
 
-const users: User[] = [
+const users: UserAttributes[] = [
   {
     id: 1,
     username: 'Admin',

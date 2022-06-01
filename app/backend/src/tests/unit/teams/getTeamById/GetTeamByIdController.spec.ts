@@ -3,7 +3,7 @@ import { NextFunction, request, response } from 'express';
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 
-import type { SuccessReturn, Team } from '../../../../@types/types';
+import type { SuccessReturn, TeamAttributes } from '../../../../@types/types';
 
 import TeamsRepository from '../../../../modules/teams/repository';
 import GetTeamByIdUseCase from '../../../../modules/teams/useCases/getTeamById/GetTeamByIdUseCase';
@@ -18,7 +18,7 @@ const teamsRepository = new TeamsRepository();
 const getTeamByIdUseCase = new GetTeamByIdUseCase(teamsRepository);
 const getTeamByIdController = new GetAllTeamsController(getTeamByIdUseCase);
 
-const SUCCESS_USE_CASE: SuccessReturn<Team> = {
+const SUCCESS_USE_CASE: SuccessReturn<TeamAttributes> = {
   statusCode: 200,
   data: teams[0],
 };
