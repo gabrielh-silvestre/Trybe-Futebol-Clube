@@ -22,7 +22,7 @@ const SUCCESS_USE_CASE: SuccessReturn<MessageCase> = {
   },
 };
 
-describe.only('Test FinishMatchController', () => {
+describe('Test FinishMatchController', () => {
   let useCaseStub: sinon.SinonStub;
   let spiedStatus: sinon.SinonSpy;
   let spiedJson: sinon.SinonSpy;

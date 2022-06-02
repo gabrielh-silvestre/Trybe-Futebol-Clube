@@ -98,7 +98,7 @@ describe('Test endpoint PATCH /matches/:id/finish', () => {
 
       expect(response.body).to.be.an('object');
       expect(response.body).to.have.property('message');
-      expect(response.body.message).to.equal('Error');
+      expect(response.body.message).to.equal('Internal server error');
     });
   });
 });
