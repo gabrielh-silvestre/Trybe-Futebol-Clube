@@ -73,6 +73,29 @@ describe('Test endpoint PATCH /matches/:id/finish', () => {
       matchModelStub.restore();
     });
 
+    it('when token is invalid', async () => {
+      const response = await chai
+        .request(app)
+        .patch(`/matches/${MATCH_UPDATED.id}/finish`)
+        .set('Authorization', 'invalid token');
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({
+        message: 'Invalid token',
+      });
+    });
+
+    it('when token is not provided', async () => {
+      const response = await chai
+        .request(app)
+        .patch(`/matches/${MATCH_UPDATED.id}/finish`);
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({
+        message: 'Invalid token',
+      });
+    });
+
     it('when match does not exist', async () => {
       const response = await chai
         .request(app)
