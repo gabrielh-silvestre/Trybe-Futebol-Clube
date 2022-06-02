@@ -10,6 +10,10 @@ type Attributes = {
 };
 
 type CreationAttributes = Omit<Attributes, 'id'>;
+type UpdateAttributes = Pick<
+Partial<Attributes>,
+'homeTeamGoals' | 'awayTeamGoals' | 'inProgress'
+>;
 
 type Return = Attributes & {
   teamHome: Pick<TeamAttributes, 'teamName'>;
@@ -18,4 +22,5 @@ type Return = Attributes & {
 
 export type MatchAttributes = Attributes;
 export type MatchCreation = CreationAttributes;
+export type MatchUpdate = UpdateAttributes;
 export type MatchReturn = Return;
