@@ -39,7 +39,7 @@ const SUCCESS_USE_CASE: SuccessReturn<MatchAttributes> = {
   data: NEW_MATCH,
 };
 
-describe.only('Test CreateNewMatchController', () => {
+describe('Test CreateNewMatchController', () => {
   let useCaseStub: sinon.SinonStub;
   let spiedStatus: sinon.SinonSpy;
   let spiedJson: sinon.SinonSpy;

@@ -9,8 +9,8 @@ import type {
   UserTokenData,
 } from '../../../@types/types';
 
+import TeamModel from '../../../database/models/TeamModel';
 import MatchesRepository from '../../../modules/matches/repository';
-import TeamsRepository from '../../../modules/teams/repository';
 import AuthService from '../../../services/Auth';
 
 import { app } from '../../../app';
@@ -41,17 +41,22 @@ const MOCK_TOKEN = AuthService.generate(MOCK_TOKEN_DATA);
 
 describe('Test endpoint POST /matches', () => {
   let matchesRepositoryStub: sinon.SinonStub;
-  let teamsRepositoryStub: sinon.SinonStub;
+  let teamModelStub: sinon.SinonStub;
 
   describe('1. Success case', () => {
     before(() => {
       matchesRepositoryStub = sinon
         .stub(MatchesRepository.prototype, 'create')
         .resolves(NEW_MATCH);
+
+      teamModelStub = sinon
+        .stub(TeamModel, 'findByPk')
+        .resolves(NEW_MATCH as unknown as TeamModel);
     });
 
     after(() => {
       matchesRepositoryStub.restore();
+      teamModelStub.restore();
     });
 
     it('should return status 201 and match data', async () => {
@@ -81,14 +86,13 @@ describe('Test endpoint POST /matches', () => {
         .stub(MatchesRepository.prototype, 'create')
         .rejects(new Error('Test error'));
 
-      teamsRepositoryStub = sinon
-        .stub(TeamsRepository.prototype, 'findById')
-        .rejects(null);
+      teamModelStub = sinon.stub(TeamModel, 'findByPk');
+      teamModelStub.resolves(null);
     });
 
     after(() => {
       matchesRepositoryStub.restore();
-      teamsRepositoryStub.restore();
+      teamModelStub.restore();
     });
 
     it('when token is invalid', async () => {
@@ -240,7 +244,7 @@ describe('Test endpoint POST /matches', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: '"homeTeamGoals" must be larger than or equal to 0',
+        message: '"homeTeamGoals" must be greater than or equal to 0',
       });
     });
 
@@ -288,7 +292,7 @@ describe('Test endpoint POST /matches', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: '"awayTeamGoals" must be larger than or equal to 0',
+        message: '"awayTeamGoals" must be greater than or equal to 0',
       });
     });
 
@@ -304,7 +308,7 @@ describe('Test endpoint POST /matches', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: '"inProgress" must be a boolean',
+        message: '"inProgress" must be [true]',
       });
     });
 
@@ -320,7 +324,7 @@ describe('Test endpoint POST /matches', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: '"inProgress" must be true',
+        message: '"inProgress" must be [true]',
       });
     });
 
@@ -336,7 +340,7 @@ describe('Test endpoint POST /matches', () => {
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Not found',
+        message: 'Team not found',
       });
     });
 
@@ -352,15 +356,17 @@ describe('Test endpoint POST /matches', () => {
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Not found',
+        message: 'Team not found',
       });
     });
 
     it('when a unexpected error occurs', async () => {
+      teamModelStub.resolves(NEW_MATCH as unknown as TeamModel);
+
       const response = await chai
         .request(app)
         .post('/matches')
-        .set('Authorization', 'invalid token')
+        .set('Authorization', MOCK_TOKEN)
         .send(MATCH_CREATION);
 
       expect(response.status).to.equal(500);
