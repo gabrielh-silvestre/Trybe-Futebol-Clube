@@ -226,7 +226,7 @@ describe('Test endpoint PATCH /matches/:id', () => {
 
       const response = await chai
         .request(app)
-        .post('/matches')
+        .patch(`/matches/${matches[0].id}`)
         .set('Authorization', MOCK_TOKEN)
         .send(MATCH_UPDATE);
 
