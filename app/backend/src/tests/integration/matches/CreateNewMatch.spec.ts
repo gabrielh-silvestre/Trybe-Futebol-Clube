@@ -210,7 +210,7 @@ describe('Test endpoint POST /matches', () => {
           homeTeam: 'invalid',
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"homeTeam" must be a number',
       });
@@ -226,7 +226,7 @@ describe('Test endpoint POST /matches', () => {
           homeTeamGoals: 'invalid',
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"homeTeamGoals" must be a number',
       });
@@ -242,7 +242,7 @@ describe('Test endpoint POST /matches', () => {
           homeTeamGoals: -1,
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"homeTeamGoals" must be greater than or equal to 0',
       });
@@ -258,7 +258,7 @@ describe('Test endpoint POST /matches', () => {
           awayTeam: 'invalid',
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"awayTeam" must be a number',
       });
@@ -274,7 +274,7 @@ describe('Test endpoint POST /matches', () => {
           awayTeamGoals: 'invalid',
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"awayTeamGoals" must be a number',
       });
@@ -290,7 +290,7 @@ describe('Test endpoint POST /matches', () => {
           awayTeamGoals: -1,
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"awayTeamGoals" must be greater than or equal to 0',
       });
@@ -306,7 +306,7 @@ describe('Test endpoint POST /matches', () => {
           inProgress: 'invalid',
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"inProgress" must be [true]',
       });
@@ -322,7 +322,7 @@ describe('Test endpoint POST /matches', () => {
           inProgress: false,
         });
 
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(422);
       expect(response.body).to.deep.equal({
         message: '"inProgress" must be [true]',
       });
@@ -338,9 +338,9 @@ describe('Test endpoint POST /matches', () => {
           homeTeam: 999,
         });
 
-      expect(response.status).to.equal(404);
+      expect(response.status).to.equal(401);
       expect(response.body).to.deep.equal({
-        message: 'Team not found',
+        message: 'There is no team with such id!',
       });
     });
 
@@ -354,9 +354,26 @@ describe('Test endpoint POST /matches', () => {
           awayTeam: 999,
         });
 
-      expect(response.status).to.equal(404);
+      expect(response.status).to.equal(401);
       expect(response.body).to.deep.equal({
-        message: 'Team not found',
+        message: 'There is no team with such id!',
+      });
+    });
+
+    it('when "homeTeam" is the same as "awayTeam"', async () => {
+      const response = await chai
+        .request(app)
+        .post('/matches')
+        .set('Authorization', MOCK_TOKEN)
+        .send({
+          ...MATCH_CREATION,
+          homeTeam: 1,
+          awayTeam: 1,
+        });
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({
+        message: 'It is not possible to create a match with two equal teams',
       });
     });
 
