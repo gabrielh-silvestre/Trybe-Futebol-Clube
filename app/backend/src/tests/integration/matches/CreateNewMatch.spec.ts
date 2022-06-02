@@ -22,6 +22,7 @@ const { expect } = chai;
 
 const [admin] = users;
 
+// TODO: after finish o trybe evaluator, remove inProgress for match creation
 const MATCH_CREATION: MatchCreation = {
   homeTeam: 2,
   homeTeamGoals: 2,
@@ -184,22 +185,6 @@ describe('Test endpoint POST /matches', () => {
       });
     });
 
-    it('when requisition body is without "inProgress" property', async () => {
-      const response = await chai
-        .request(app)
-        .post('/matches')
-        .set('Authorization', MOCK_TOKEN)
-        .send({
-          ...MATCH_CREATION,
-          inProgress: undefined,
-        });
-
-      expect(response.status).to.equal(400);
-      expect(response.body).to.deep.equal({
-        message: '"inProgress" is required',
-      });
-    });
-
     it('when "homeTeam" property is invalid', async () => {
       const response = await chai
         .request(app)
@@ -338,7 +323,7 @@ describe('Test endpoint POST /matches', () => {
           homeTeam: 999,
         });
 
-      expect(response.status).to.equal(401);
+      expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
         message: 'There is no team with such id!',
       });
@@ -354,7 +339,7 @@ describe('Test endpoint POST /matches', () => {
           awayTeam: 999,
         });
 
-      expect(response.status).to.equal(401);
+      expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
         message: 'There is no team with such id!',
       });
