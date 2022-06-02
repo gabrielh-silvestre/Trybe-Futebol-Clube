@@ -11,10 +11,21 @@ class MatchValidator {
     homeTeam: joi.number().strict().required(),
     awayTeam: joi.number().strict().required(),
     // TODO: after finish o trybe evaluator, allow strict validation
-    homeTeamGoals: joi.number()/* .strict() */.min(0).required(),
-    awayTeamGoals: joi.number()/* .strict() */.min(0).required(),
+    homeTeamGoals: joi
+      .number() /* .strict() */
+      .min(0)
+      .required(),
+    awayTeamGoals: joi
+      .number() /* .strict() */
+      .min(0)
+      .required(),
     // TODO: after finish o trybe evaluator, remove inProgress
     inProgress: joi.boolean().valid(true),
+  });
+
+  private static updateScoreValidationSchema = joi.object({
+    homeTeamGoals: joi.number().min(0).required(),
+    awayTeamGoals: joi.number().min(0).required(),
   });
 
   public static validateCreate(
@@ -52,6 +63,23 @@ class MatchValidator {
 
     if (!taskExists) {
       const err = new NotFoundError('Match not found');
+
+      return next(err);
+    }
+
+    return next();
+  }
+
+  public static validateUpdateScore(
+    req: Request,
+    _res: Response,
+    next: NextFunction,
+  ): void {
+    const { error } = MatchValidator.updateScoreValidationSchema.validate(
+      req.body,
+    );
+    if (error) {
+      const err = buildJoiSchemaError(error.details[0].message);
 
       return next(err);
     }
