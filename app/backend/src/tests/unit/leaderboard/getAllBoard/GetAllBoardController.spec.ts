@@ -10,23 +10,23 @@ import type {
 
 import { boardBuilder } from '../../../../utils/BoardBuilder';
 import LeaderBoardRepository from '../../../../modules/leaderboard/repository';
-import GetAwayBoardUseCase from '../../../../modules/leaderboard/useCases/getAwayBoard/GetAwayBoardUseCase';
-import GetAwayBoardController from '../../../../modules/leaderboard/useCases/getAwayBoard/GetAwayBoardController';
+import GetAllBoardUseCase from '../../../../modules/leaderboard/useCases/getAllBoard/GetAllBoardUseCase';
+import GetAllBoardController from '../../../../modules/leaderboard/useCases/getAllBoard/GetAllBoardController';
 
 import { board } from '../../../mock/leaderboards';
 
 const { expect } = chai;
 
 const matchesRepository = new LeaderBoardRepository(boardBuilder);
-const getHomeBoardUseCase = new GetAwayBoardUseCase(matchesRepository);
-const getHomeBoardController = new GetAwayBoardController(getHomeBoardUseCase);
+const getAllBoardUseCase = new GetAllBoardUseCase(matchesRepository);
+const getAllBoardController = new GetAllBoardController(getAllBoardUseCase);
 
 const SUCCESS_USE_CASE: SuccessReturn<LeaderBoardAttributes[]> = {
   statusCode: 200,
   data: board,
 };
 
-describe('Test GetAwayBoardController', () => {
+describe('Test GetAllBoardController', () => {
   let useCaseStub: sinon.SinonStub;
   let spiedStatus: sinon.SinonSpy;
   let spiedJson: sinon.SinonSpy;
@@ -50,7 +50,7 @@ describe('Test GetAwayBoardController', () => {
   describe('1. Success case', () => {
     before(() => {
       useCaseStub = sinon
-        .stub(getHomeBoardUseCase, 'execute')
+        .stub(getAllBoardUseCase, 'execute')
         .resolves(SUCCESS_USE_CASE);
     });
 
@@ -59,7 +59,7 @@ describe('Test GetAwayBoardController', () => {
     });
 
     it('should return status code 200 and home teams leaderboard data', async () => {
-      await getHomeBoardController.handle(request, response, next.next);
+      await getAllBoardController.handle(request, response, next.next);
 
       expect(spiedStatus.calledWith(200)).to.be.true;
       expect(spiedJson.calledWith(SUCCESS_USE_CASE.data)).to.be.true;

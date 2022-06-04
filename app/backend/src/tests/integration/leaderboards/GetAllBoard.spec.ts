@@ -12,7 +12,7 @@ import { board } from '../../mock/leaderboards';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('Test endpoint GET /leaderboard/away', () => {
+describe('Test endpoint GET /leaderboard', () => {
   let repositoryStub: sinon.SinonStub;
 
   describe('1. Success case', () => {
@@ -27,7 +27,7 @@ describe('Test endpoint GET /leaderboard/away', () => {
     });
 
     it('should return 200 and leaderboard data', async () => {
-      const response = await chai.request(app).get('/leaderboard/away');
+      const response = await chai.request(app).get('/leaderboard');
 
       expect(response.status).to.equal(200);
 
