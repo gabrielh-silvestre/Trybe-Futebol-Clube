@@ -11,6 +11,8 @@ import type {
 import MatchModel from '../../../database/models/MatchModel';
 import TeamModel from '../../../database/models/TeamModel';
 
+import { sortLeaderBoard } from '../../../utils';
+
 class LeaderBoardRepository implements ILeaderBoardRepository {
   private teamModel: typeof TeamModel;
   private matchModel: typeof MatchModel;
@@ -39,7 +41,7 @@ class LeaderBoardRepository implements ILeaderBoardRepository {
       .then((teams) =>
         teams.map((team) => team.get()))) as TeamMatchesAttributes[];
 
-    return this.builder[option || 'all'](teamsWithMatches);
+    return sortLeaderBoard(this.builder[option || 'all'](teamsWithMatches));
   }
 }
 
