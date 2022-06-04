@@ -13,9 +13,8 @@ const buildJoiSchemaError = (message: string) =>
 
 const reduceHomeBoard = (
   acc: LeaderBoardAttributes,
-  curr: MatchAttributes,
+  { homeTeamGoals, awayTeamGoals }: MatchAttributes,
 ): LeaderBoardAttributes => {
-  const { homeTeamGoals, awayTeamGoals } = curr;
   acc.totalGames += 1;
 
   if (homeTeamGoals > awayTeamGoals) acc.totalVictories += 1;
@@ -35,9 +34,8 @@ const reduceHomeBoard = (
 
 const reduceAwayBoard = (
   acc: LeaderBoardAttributes,
-  curr: MatchAttributes,
+  { homeTeamGoals, awayTeamGoals }: MatchAttributes,
 ): LeaderBoardAttributes => {
-  const { homeTeamGoals, awayTeamGoals } = curr;
   acc.totalGames += 1;
 
   if (homeTeamGoals < awayTeamGoals) acc.totalVictories += 1;
@@ -57,9 +55,8 @@ const reduceAwayBoard = (
 
 const reduceBoard = (
   acc: LeaderBoardAttributes,
-  curr: UtilGoals,
+  { favor, own }: UtilGoals,
 ): LeaderBoardAttributes => {
-  const { favor, own } = curr;
   acc.totalGames += 1;
 
   if (favor < own) acc.totalVictories += 1;
@@ -98,5 +95,23 @@ const unifyMatches = (
   return [...homeMatches, ...awayMatches];
 };
 
+const sortLeaderBoard = (
+  leaderBoard: LeaderBoardAttributes[],
+): LeaderBoardAttributes[] =>
+  leaderBoard.sort((a, b) => {
+    if (a.totalPoints !== b.totalPoints) return b.totalPoints - a.totalPoints;
+    if (a.totalVictories !== b.totalVictories) return b.totalVictories - a.totalVictories;
+    if (a.goalsBalance !== b.goalsBalance) return b.goalsBalance - a.goalsBalance;
+    if (a.goalsFavor !== b.goalsFavor) return b.goalsFavor - a.goalsFavor;
+    if (a.goalsOwn !== b.goalsOwn) return b.goalsOwn - a.goalsOwn;
+    return 0;
+  });
+
 export default buildJoiSchemaError;
-export { reduceHomeBoard, reduceAwayBoard, reduceBoard, unifyMatches };
+export {
+  reduceHomeBoard,
+  reduceAwayBoard,
+  reduceBoard,
+  unifyMatches,
+  sortLeaderBoard,
+};
