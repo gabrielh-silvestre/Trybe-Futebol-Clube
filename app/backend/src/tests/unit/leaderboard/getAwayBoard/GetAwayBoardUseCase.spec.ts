@@ -10,7 +10,7 @@ import { board } from '../../../mock/leaderboards';
 const { expect } = chai;
 
 const leaderBoardRepository = new LeaderBoardRepository(boardBuilder);
-const getHomeBoardUseCase = new GetAwayBoardUseCase(leaderBoardRepository);
+const getAllBoardUseCase = new GetAwayBoardUseCase(leaderBoardRepository);
 
 describe('Test GetAwayBoardUseCase', () => {
   let findAllStub: sinon.SinonStub;
@@ -25,7 +25,7 @@ describe('Test GetAwayBoardUseCase', () => {
     });
 
     it('when does not pass a filter, should return an object with leaderboard data and status code', async () => {
-      const result = await getHomeBoardUseCase.execute();
+      const result = await getAllBoardUseCase.execute();
 
       expect(result).to.be.an('object');
       expect(result).to.have.property('statusCode');
