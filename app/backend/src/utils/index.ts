@@ -59,12 +59,12 @@ const reduceBoard = (
 ): LeaderBoardAttributes => {
   acc.totalGames += 1;
 
-  if (favor < own) acc.totalVictories += 1;
-  else if (favor > own) acc.totalLosses += 1;
+  if (favor > own) acc.totalVictories += 1;
+  else if (favor < own) acc.totalLosses += 1;
   else acc.totalDraws += 1;
 
-  acc.goalsFavor += own;
-  acc.goalsOwn += favor;
+  acc.goalsFavor += favor;
+  acc.goalsOwn += own;
   acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
   acc.totalPoints = acc.totalVictories * 3 + acc.totalDraws;
   acc.efficiency = Number(
