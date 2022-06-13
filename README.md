@@ -37,7 +37,7 @@ __Os usuários devem ser capaz de?__
 
 ### Links
 
-- URL da documentação: https://todo-list-api-417639.herokuapp.com/v1/api-docs/
+- Live site: _*Em breve_
 
 
 ## Meu processo
